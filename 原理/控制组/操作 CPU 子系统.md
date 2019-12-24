@@ -2,8 +2,6 @@
 
 > 通过 subsystem 限制 cgroup 中与 CPU 相关的资源。
 
-在上一篇笔记中创建 hierarchy 时，hierarchy 没有关联到任何的 subsystem，所以没办法通过那个 hierarchy 中的 cgroup 节点限制进程的资源占用。其实系统默认已经为每个 subsystem 创建了一个默认的 hierarchy，我们可以直接使用现成的。
-
 ## CPU 相关子系统
 
 在 cgroup 里面，跟 CPU 相关的子系统有 `cpusets`、`cpuacct` 和 `cpu`。
@@ -132,5 +130,5 @@ $ top
 
 ### 章节导航
 
-- 上一节：[操作控制组树](操作控制组树.md)
-- 下一节：[操作进程子系统](操作进程子系统.md)
+- 上一节：[操作进程子系统](操作进程子系统.md)
+- 下一节：[操作内存子系统](操作内存子系统.md)
