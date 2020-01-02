@@ -465,4 +465,4 @@ Docker 负责准备 runtime 的 bundle 以及网络、存储等外在资源，�
 ### 章节导航
 
 - 上一节：[通过 runc 运行容器](runc.md)
-- 下一节：暂无
+- 下一节：[简述 Image 的获取和存储方式](pull.md)
