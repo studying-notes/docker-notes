@@ -20,6 +20,8 @@
 > ```
 > 原来 Overlay/Overlay2 只是 Docker 基于 OverlayFS 实现的两种存储驱动类型！怪我之前没有仔细品味每一句话的含义，好在我还是产生了疑问。现在，我可以明确地说，下面的实验是针对原始的 OverlayFS 的操作。
 
+之后我在学习中又了解到 OverlayFS 曾经引入了支持多个 `lowerdir` 的 [新特性](https://lkml.org/lkml/2015/2/11/106)，才有了现在的 OverlayFS，Docker 也由此开发了 Overlay2 存储驱动。
+
 ## 确认系统是否支持 OverlayFS
 
 ```bash
