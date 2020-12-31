@@ -3,7 +3,7 @@ date: 2020-08-15T22:20:49+08:00  # 创建日期
 author: "Rustle Karl"  # 作者
 
 # 文章
-title: "常用 Docker Image 部署步骤合辑"  # 文章标题
+title: "常用 Docker Image 部署合辑"  # 文章标题
 url:  "posts/docker/build/shortcuts"  # 设置网页链接，默认使用文件名
 tags: [ "docker", "shortcuts"]  # 自定义标签
 series: [ "Docker 从入门到放弃"]  # 文章主题/文章系列
@@ -64,34 +64,76 @@ docker run --restart=always -itd --name mysql -p 4567:3306 -e MYSQL_ROOT_PASSWOR
 docker pull redis
 ```
 
-D:/OneDrive/相册/Photos
-
-```conf
-server {
-            listen 12346;
-            server_name localhost;
-            location ~ /imgs/ {
-                root   /usr/share/nginx/html/;
-                autoindex on;
-            }
-            access_log  logs/access.log main;
-            error_log  logs/errors.log;
-    }
-```
-
 ```shell
 docker run --restart=always --name redis -p 6379:6379 -d redis
 ```
 
 ## Nginx
 
-### Nginx 图片服务器
-
 ```shell
 docker pull nginx
 ```
 
-{{<code language="conf" title="nginx.conf" id="1" expand="" collapse="" isCollapsed="false" >}}
+### 文件镜像
+
+```shell
+docker run --restart=always -d -p 54321:54321 --name nginx -v e:/Mirror:/usr/share/nginx/html -v D:/OneDrive/Repositories/notes/content/posts/nginx/configs/nginx-mirror.conf:/etc/nginx/nginx.conf -v D:/OneDrive/Repositories/notes/content/posts/nginx/logs/nginx-mirror:/var/log/nginx nginx-mirror
+```
+
+{{<code language="conf" title="nginx.conf" id="1" expand="" collapse="" isCollapsed="true" >}}
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+    keepalive_timeout  65;
+
+    server {
+        listen       54321;
+        server_name  localhost;
+        
+        charset utf-8;
+
+        location / {
+            root   /usr/share/nginx/html;
+            autoindex on;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+}
+{{</code >}}
+
+### 图片服务器
+
+相册在 D 盘
+
+```shell
+docker run --restart=always -d -p 12346:12346 --name nginx -v D:/OneDrive/相册:/usr/share/nginx/html -v D:/OneDrive/Repositories/notes/content/posts/nginx/configs/nginx-photos.conf:/etc/nginx/nginx.conf -v D:/OneDrive/Repositories/notes/content/posts/nginx/logs/nginx-photos:/var/log/nginx nginx
+```
+
+相册在 H 盘
+
+```shell
+docker run --restart=always -d -p 12346:12346 --name nginx -v H:/OneDrive/相册:/usr/share/nginx/html -v H:/OneDrive/Repositories/notes/content/posts/nginx/configs/nginx-photos.conf:/etc/nginx/nginx.conf -v H:/OneDrive/Repositories/notes/content/posts/nginx/logs/nginx-photos:/var/log/nginx nginx
+```
+
+访问
+
+```shell
+http://localhost:12346/
+```
+
+{{<code language="conf" title="nginx.conf" id="1" expand="" collapse="" isCollapsed="true" >}}
 worker_processes  1;
 
 events {
@@ -123,24 +165,6 @@ http {
     }
 }
 {{</code >}}
-
-相册在 D 盘
-
-```shell
-docker run --restart=always -d -p 12346:12346 --name nginx -v D:/OneDrive/相册:/usr/share/nginx/html -v D:/OneDrive/Repositories/notes/content/posts/nginx/nginx.conf:/etc/nginx/nginx.conf -v D:/OneDrive/Repositories/notes/content/posts/nginx/logs:/var/log/nginx nginx
-```
-
-相册在 H 盘
-
-```shell
-docker run --restart=always -d -p 12346:12346 --name nginx -v H:/OneDrive/相册:/usr/share/nginx/html -v H:/OneDrive/Repositories/notes/content/posts/nginx/nginx.conf:/etc/nginx/nginx.conf -v H:/OneDrive/Repositories/notes/content/posts/nginx/logs:/var/log/nginx nginx
-```
-
-访问
-
-```shell
-http://localhost:12346/
-```
 
 ## GitLab
 
