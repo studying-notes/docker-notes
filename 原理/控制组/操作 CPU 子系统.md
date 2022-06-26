@@ -1,4 +1,21 @@
-# 操作 CPU 子系统（subsystem）
+---
+date: 2019-12-15T22:20:49+08:00  # 创建日期
+author: "Rustle Karl"  # 作者
+
+# 文章
+title: "操作 CPU 子系统（subsystem）"  # 文章标题
+url:  "posts/docker/cgroup/cpu"  # 设置网页链接，默认使用文件名
+tags: [ "docker", "cgroup"]  # 自定义标签
+series: [ "Docker 从入门到放弃"]  # 文章主题/文章系列
+categories: [ "学习笔记"]  # 文章分类
+
+# 章节
+weight: 20 # 文章在章节中的排序优先级，正序排序
+chapter: false  # 将页面设置为章节
+
+index: true  # 文章是否可以被索引
+draft: false  # 草稿
+---
 
 > 通过 subsystem 限制 cgroup 中与 CPU 相关的资源。
 
@@ -58,28 +75,28 @@ cpuacct.usage_percpu_user  tasks
 1. 限制只能使用 1 个 CPU（每 250ms 能使用 250ms 的 CPU 时间）
 
 ```bash
-$ echo 250000 > cpu.cfs_quota_us 
-# quota = 250ms 
-$ echo 250000 > cpu.cfs_period_us 
-# period = 250ms 
+$ echo 250000 > cpu.cfs_quota_us
+# quota = 250ms
+$ echo 250000 > cpu.cfs_period_us
+# period = 250ms
 ```
 
 2. 限制使用 2 个 CPU（内核）（每 500ms 能使用 1000ms 的 CPU 时间）
 
 ```bash
-$ echo 1000000 > cpu.cfs_quota_us 
-# quota = 1000ms 
-$ echo 500000 > cpu.cfs_period_us 
-# period = 500ms 
+$ echo 1000000 > cpu.cfs_quota_us
+# quota = 1000ms
+$ echo 500000 > cpu.cfs_period_us
+# period = 500ms
 ```
 
 3. 限制使用 1 个 CPU 的 20%（每 50ms 能使用 10ms 的 CPU 时间）
 
 ```bash
-$ echo 10000 > cpu.cfs_quota_us 
-# quota = 10ms 
-$ echo 50000 > cpu.cfs_period_us 
-# period = 50ms 
+$ echo 10000 > cpu.cfs_quota_us
+# quota = 10ms
+$ echo 50000 > cpu.cfs_period_us
+# period = 50ms
 ```
 
 **cpu.shares**
@@ -99,7 +116,7 @@ PID    container	CPU	CPU share
 
 - 假设在上面的例子中，另外加入了一个新的 cgroup C，且它的 shares 值是1024，那么 A 的限额变成了1024/(1204+512+1024)=40%，B 的变成了 20%。由于 shares 是一个绝对值，需要和其它 cgroup 的值进行比较才能得到自己的相对限额，而在一个部署很多容器的机器上，cgroup 的数量是变化的，所以这个限额也是变化的，自己设置了一个高的值，但别人可能设置了一个更高的值，所以这个功能没法精确的控制 CPU 占用率。
 
-**cpu.stat** 
+**cpu.stat**
 
 记录 CPU 的统计信息，一共有三项：
 

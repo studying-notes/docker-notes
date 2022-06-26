@@ -1,4 +1,25 @@
-# ` docker ps` 命令详解
+---
+date: 2020-12-29T14:54:42+08:00  # 创建日期
+author: "Rustle Karl"  # 作者
+
+# 文章
+title: "docker ps 命令详解"  # 文章标题
+# description: "文章描述"
+url:  "posts/cmd/docker/ps"  # 设置网页永久链接
+tags: [ "docker"]  # 自定义标签
+series: [ "Docker 从入门到放弃"]  # 文章主题/文章系列
+categories: [ "学习笔记"]  # 文章分类
+
+# 章节
+weight: 20 # 排序优先级
+chapter: false  # 设置为章节
+
+index: true  # 是否可以被索引
+toc: true  # 是否自动生成目录
+draft: false  # 草稿
+---
+
+# `docker ps` 命令详解
 
 > 列出容器
 

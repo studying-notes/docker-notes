@@ -97,9 +97,9 @@ $ docker search --format "table {{.Name}}\t{{.IsAutomated}}\t{{.IsOfficial}}" ng
 
 NAME                                     AUTOMATED           OFFICIAL
 nginx                                                        [OK]
-jwilder/nginx-proxy                      [OK]                
-richarvey/nginx-php-fpm                  [OK]                
-jrcs/letsencrypt-nginx-proxy-companion   [OK]                
-million12/nginx-php                      [OK]                
-webdevops/php-nginx                      [OK]                
+jwilder/nginx-proxy                      [OK]
+richarvey/nginx-php-fpm                  [OK]
+jrcs/letsencrypt-nginx-proxy-companion   [OK]
+million12/nginx-php                      [OK]
+webdevops/php-nginx                      [OK]
 ```

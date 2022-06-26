@@ -72,7 +72,7 @@ $ pstree -pl | grep grep
 
 ```sh
 # 子进程所在 UTS 命名空间
-$ readlink /proc/26468/ns/uts 
+$ readlink /proc/26468/ns/uts
 uts:[4026532440]
 
 # 祖先进程所在 UTS 命名空间

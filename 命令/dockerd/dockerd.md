@@ -2,6 +2,37 @@
 
 > 守护进程，https://docs.docker.com/engine/reference/commandline/dockerd/
 
+- [`dockerd` 命令详解](#dockerd-命令详解)
+	- [基本信息](#基本信息)
+		- [用法](#用法)
+		- [选项](#选项)
+		- [描述](#描述)
+	- [示例](#示例)
+		- [Daemon Socket Option](#daemon-socket-option)
+			- [BIND DOCKER TO ANOTHER HOST/PORT OR A UNIX SOCKET](#bind-docker-to-another-hostport-or-a-unix-socket)
+		- [Daemon storage-driver](#daemon-storage-driver)
+		- [Options per storage driver](#options-per-storage-driver)
+			- [OVERLAY2 OPTIONS](#overlay2-options)
+		- [Docker runtime execution options](#docker-runtime-execution-options)
+			- [OPTIONS FOR THE RUNTIME](#options-for-the-runtime)
+		- [Daemon DNS options](#daemon-dns-options)
+		- [Allow push of nondistributable artifacts](#allow-push-of-nondistributable-artifacts)
+		- [Insecure registries](#insecure-registries)
+		- [Running a Docker daemon behind an HTTPS_PROXY](#running-a-docker-daemon-behind-an-https_proxy)
+		- [Default `ulimit` settings](#default-ulimit-settings)
+		- [Node discovery](#node-discovery)
+		- [Access authorization](#access-authorization)
+		- [Miscellaneous options](#miscellaneous-options)
+			- [DEFAULT CGROUP PARENT](#default-cgroup-parent)
+			- [DAEMON METRICS](#daemon-metrics)
+			- [NODE GENERIC RESOURCES](#node-generic-resources)
+		- [Daemon configuration file](#daemon-configuration-file)
+			- [On Linux](#on-linux)
+			- [On Windows](#on-windows)
+			- [FEATURE OPTIONS](#feature-options)
+			- [CONFIGURATION RELOAD BEHAVIOR](#configuration-reload-behavior)
+		- [Run multiple daemons](#run-multiple-daemons)
+
 ## 基本信息
 
 ### 用法
@@ -140,7 +171,7 @@ $ docker -H tcp://127.0.0.1:2375 pull ubuntu
 特定的存储驱动可以指定不同的 `--storage-opt` 选项参数进行自定义配置。
 - `devicemapper` 前缀 `dm`
 - `zfs` 前缀 `zfs`
-- `btrfs` 前缀 `btrfs` 
+- `btrfs` 前缀 `btrfs`
 - `lcow` 前缀 `lcow`
 - `overlay2` 前缀 `overlay2`
 

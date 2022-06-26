@@ -14,8 +14,8 @@ docker top CONTAINER [ps OPTIONS]
 
 ```bash
 $ docker top demo
-UID                 PID                 PPID                C                   STIME               TTY     
+UID                 PID                 PPID                C                   STIME               TTY
             TIME                CMD
-root                30915               30886               0                   Dec29               pts/0   
+root                30915               30886               0                   Dec29               pts/0
             00:00:00            bash
 ```

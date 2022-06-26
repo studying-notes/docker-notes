@@ -63,7 +63,7 @@ $ mount -t aufs -o br=image-layer2=ro:image-layer1=ro none mnt
 $ ls mnt/
 image-layer1.txt  image-layer2.txt  image-layer.txt
 
-$ cat mnt/image-layer.txt 
+$ cat mnt/image-layer.txt
 I am image layer2
 ```
 

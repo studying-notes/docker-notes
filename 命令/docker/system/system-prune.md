@@ -65,4 +65,3 @@ Total reclaimed space: 1.84kB
 
 - until (`<timestamp>`) - only remove containers created before given timestamp
 - label (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`) - only remove containers with (or without, in case `label!=...` is used) the specified labels.
-

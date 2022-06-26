@@ -24,6 +24,14 @@ draft: false  # 草稿
 curl -sSL https://get.docker.com | sh
 ```
 
+> 在修改镜像源之前
+
+```shell
+docker run hellow-world
+```
+
+> 不限系统，可以是树莓派官方，也可以是 Ubuntu。
+
 ```shell
 usermod -aG docker pi
 ```
@@ -59,9 +67,22 @@ rm -rf /var/lib/docker
 ### 修改配置文件
 
 ```shell
-echo '{
-  "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn"]
-}' > /etc/docker/daemon.json
+echo '
+{
+  "registry-mirrors": [
+    "http://ovfftd6p.mirror.aliyuncs.com",
+    "http://registry.docker-cn.com",
+    "http://docker.mirrors.ustc.edu.cn",
+    "http://hub-mirror.c.163.com"
+  ],
+  "insecure-registries": [
+    "registry.docker-cn.com",
+    "docker.mirrors.ustc.edu.cn"
+  ],
+  "debug": true,
+  "experimental": true
+}
+' > /etc/docker/daemon.json
 ```
 
 ### 使配置文件生效
@@ -73,8 +94,13 @@ systemctl daemon-reload
 ### 重启 Docker
 
 ```shell
-systemctl restart docker 
+systemctl restart docker
 ```
+
+```shell
+
+```
+
 
 ## 安装 Docker Compose
 

@@ -64,7 +64,7 @@ sudo usermod -aG docker your-user
 - `DOCKER_TLS_VERIFY` When set Docker uses TLS and verifies the remote.
 - `DOCKER_CONTENT_TRUST` When set Docker uses notary(公证) to sign and verify images. Equates to `--disable-content-trust=false` for build, create, pull, push, run.
 - `DOCKER_CONTENT_TRUST_SERVER` The URL of the Notary server to use. This defaults to the same URL as the registry.
-- `DOCKER_HIDE_LEGACY_COMMANDS` When set, Docker hides “legacy” top-level commands (such as `docker rm`, and `docker pull`) in `docker help` output, and only `Management commands` per object-type (e.g., `docker container`) are printed. 
+- `DOCKER_HIDE_LEGACY_COMMANDS` When set, Docker hides “legacy” top-level commands (such as `docker rm`, and `docker pull`) in `docker help` output, and only `Management commands` per object-type (e.g., `docker container`) are printed.
 - `DOCKER_TMPDIR` Location for temporary Docker files.
 - `DOCKER_CONTEXT` Specify the context to use (overrides DOCKER_HOST env var and default context set with “docker context use”)
 - `DOCKER_DEFAULT_PLATFORM` Specify the default platform for the commands that take the `--platform` flag.

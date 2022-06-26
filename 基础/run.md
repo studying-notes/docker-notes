@@ -1,5 +1,18 @@
 # 浅析 RUN 执行过程
 
+- [浅析 RUN 执行过程](#浅析-run-执行过程)
+  - [一个 RUN 实例](#一个-run-实例)
+  - [图中步骤详解](#图中步骤详解)
+    - [docker ↔ dockerd](#docker--dockerd)
+    - [dockerd ↔ docker hub](#dockerd--docker-hub)
+    - [dockerd ↔ docker-containerd](#dockerd--docker-containerd)
+    - [docker-containerd ↔ docker-containerd-shim](#docker-containerd--docker-containerd-shim)
+    - [docker-containerd-shim ↔ docker-runc](#docker-containerd-shim--docker-runc)
+    - [docker-runc ↔ output](#docker-runc--output)
+  - [进程间的关系](#进程间的关系)
+  - [详细步骤模拟](#详细步骤模拟)
+    - [章节导航](#章节导航)
+
 ## 一个 RUN 实例
 
 ```bash
@@ -137,7 +150,7 @@ $ curl '127.0.0.1:5678/v1.40/containers/ea2659c74b6177968afd00185361e3c7942bb5be
 5. 另外打开一个终端，启动容器
 
 ```bash
-$ curl 127.0.0.1:5678/v1.40/containers/ea2659c74b6177968afd00185361e3c7942bb5be8b56fa3e3eccc0ec31bc5d4a/start -X POST 
+$ curl 127.0.0.1:5678/v1.40/containers/ea2659c74b6177968afd00185361e3c7942bb5be8b56fa3e3eccc0ec31bc5d4a/start -X POST
 ```
 
 切换回之前的终端，理论上可以看到与笔记开头一模一样的输出，但实际上我只看到了一个警告，我当时未深究原因。

@@ -1,4 +1,22 @@
-# 简述 Image 的获取和存储方式
+---
+date: 2020-12-29T13:51:09+08:00  # 创建日期
+author: "Rustle Karl"  # 作者
+
+# 文章
+title: "简述 Image 的获取和存储方式"  # 文章标题
+url:  "posts/docker/abc/pull"  # 设置网页链接，默认使用文件名
+tags: [ "docker", "turtial"]  # 自定义标签
+series: [ "Docker 从入门到放弃"]  # 文章主题/文章系列
+categories: [ "学习笔记"]  # 文章分类
+
+# 章节
+weight: 20 # 排序优先级
+chapter: false  # 设置为章节
+
+index: true  # 是否可以被索引
+toc: true  # 是否自动生成目录
+draft: false  # 草稿
+---
 
 > Docker 是如何获取、管理和存储本地镜像文件的？
 
@@ -67,10 +85,10 @@ $ systemctl restart docker.service
 $ docker pull ubuntu
 Using default tag: latest
 latest: Pulling from library/ubuntu
-2746a4a261c9: Pull complete 
-4c1d20cdee96: Pull complete 
-0d3160e1d0de: Pull complete 
-c8e37668deea: Pull complete 
+2746a4a261c9: Pull complete
+4c1d20cdee96: Pull complete
+0d3160e1d0de: Pull complete
+c8e37668deea: Pull complete
 Digest: sha256:2695d3e10e69cc500a16eae6d6629c803c43ab075fa5ce60813a0fc49c47e859
 Status: Downloaded newer image for ubuntu:latest
 docker.io/library/ubuntu:latest

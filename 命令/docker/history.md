@@ -26,9 +26,9 @@ docker history [OPTIONS] IMAGE
 ```bash
 $ docker history centos
 IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
-0f3e07c0138f        2 months ago        /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B                  
-<missing>           2 months ago        /bin/sh -c #(nop)  LABEL org.label-schema.sc…   0B                  
-<missing>           2 months ago        /bin/sh -c #(nop) ADD file:d6fdacc1972df524a…   220MB    
+0f3e07c0138f        2 months ago        /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B
+<missing>           2 months ago        /bin/sh -c #(nop)  LABEL org.label-schema.sc…   0B
+<missing>           2 months ago        /bin/sh -c #(nop) ADD file:d6fdacc1972df524a…   220MB
 ```
 
 ### 格式化输出
@@ -56,5 +56,5 @@ $ docker history --format "table {{.ID}}: {{.CreatedSince}}" centos
 IMAGE: CREATED
 0f3e07c0138f: 2 months ago
 <missing>: 2 months ago
-<missing>: 2 months ago        
+<missing>: 2 months ago
 ```

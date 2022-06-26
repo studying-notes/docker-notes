@@ -48,7 +48,36 @@ https://desktop.docker.com/win/stable/Docker%20Desktop%20Installer.exe
 ```
 
 ```shell
+{
+    "exec-opts": [
+        "native.cgroupdriver=systemd"
+    ],
+    "registry-mirrors": [
+        "http://ovfftd6p.mirror.aliyuncs.com",
+        "http://registry.docker-cn.com",
+        "http://docker.mirrors.ustc.edu.cn",
+        "http://hub-mirror.c.163.com"
+    ],
+    "insecure-registries": [
+        "registry.docker-cn.com",
+        "docker.mirrors.ustc.edu.cn"
+    ]
+}
+```
 
+### 添加私有 registry
+
+```json
+{
+  "registry-mirrors": [
+    "http://node1:5000",
+  ],
+  "insecure-registries": [
+    "node1:5000",
+  ],
+  "debug": true,
+  "experimental": false
+}
 ```
 
 ```shell
@@ -96,6 +125,3 @@ https://desktop.docker.com/win/stable/Docker%20Desktop%20Installer.exe
 ```shell
 
 ```
-
-
-

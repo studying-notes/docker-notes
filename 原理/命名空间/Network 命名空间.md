@@ -47,14 +47,14 @@ func main() {
 1. 当前宿主机网络设备
 
 ```bash
-$  ifconfig 
+$  ifconfig
 eno1: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
         ether 38:c9:86:51:14:f7  txqueuelen 1000  (Ethernet)
         RX packets 0  bytes 0 (0.0 B)
         RX errors 0  dropped 0  overruns 0  frame 0
         TX packets 0  bytes 0 (0.0 B)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-        device interrupt 19  
+        device interrupt 19
 
 lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
         inet 127.0.0.1  netmask 255.0.0.0
@@ -280,7 +280,7 @@ exit
 # 文件仍存在，说明 Network 命名空间未被销毁
 $ ls -i /var/run/netns/net1
 4026532441 /var/run/netns/net1
-$ 
+$
 ```
 
 这一系列操作等同于执行了命令：

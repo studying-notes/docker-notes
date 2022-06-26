@@ -62,7 +62,7 @@ $ cat memory.limit_in_bytes
 
 # 已用内存
 $ cat memory.usage_in_bytes
-6332416 
+6332416
 ```
 
 可以看到，Docker 通过为每个容器创建 cgroup，并通过 cgroup 去配置资源限制和资源监控。

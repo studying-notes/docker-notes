@@ -40,7 +40,7 @@ func main() {
 $ ipcs -q
 
 ------ Message Queues --------
-key        msqid      owner      perms      used-bytes   messages   
+key        msqid      owner      perms      used-bytes   messages
 ```
 
 2. 在宿主机上创建一个进程间通信
@@ -53,8 +53,8 @@ Message queue id: 0
 $ ipcs -q
 
 ------ Message Queues --------
-key        msqid      owner      perms      used-bytes   messages    
-0xfc0703a1 0          root       644        0            0          
+key        msqid      owner      perms      used-bytes   messages
+0xfc0703a1 0          root       644        0            0
 ```
 
 3. 执行 `go run ipc.go` 命令，进入另一个交互终端
@@ -63,7 +63,7 @@ key        msqid      owner      perms      used-bytes   messages
 $ ipcs -q
 
 ------ Message Queues --------
-key        msqid      owner      perms      used-bytes   messages   
+key        msqid      owner      perms      used-bytes   messages
 ```
 
 在新创建的命名空间中，看不到宿主机中的进程间通信列队，可见 IPC 已被隔离。
@@ -117,8 +117,8 @@ Message queue id: 0
 $ ipcs -q
 
 ------ Message Queues --------
-key        msqid      owner      perms      used-bytes   messages    
-0xf124383f 32768      root       644        0            0      
+key        msqid      owner      perms      used-bytes   messages
+0xf124383f 32768      root       644        0            0
 ```
 
 **2号终端**
@@ -132,8 +132,8 @@ ipc:[4026531839]
 $ ipcs -q
 
 ------ Message Queues --------
-key        msqid      owner      perms      used-bytes   messages    
-0xf124383f 32768      root       644        0            0      
+key        msqid      owner      perms      used-bytes   messages
+0xf124383f 32768      root       644        0            0
 
 # 理论上是该进程离开当前 UTS 和 IPC 命名空间
 # 创建加入新的 UTS 和 IPC 命名空间，然后执行
@@ -173,8 +173,8 @@ ipc:[4026531839]
 $ ipcs -q
 
 ------ Message Queues --------
-key        msqid      owner      perms      used-bytes   messages    
-0xf124383f 32768      root       644        0            0      
+key        msqid      owner      perms      used-bytes   messages
+0xf124383f 32768      root       644        0            0
 
 # 但是当我再次查看进程间关系，似乎是又创建了子进程
 |-bash(26553)---bash(27001)---bash(27163)-+-grep(27212)

@@ -22,4 +22,3 @@ docker config create [OPTIONS] CONFIG file|-
 | ------------------------- | ------------------------------------------------------------ |
 | `--label , -l` | 配置标签 |
 | `--template-driver` | [**API 1.37+**](https://docs.docker.com/engine/api/v1.37/) 模板驱动 |
-

@@ -77,7 +77,7 @@ cgroup:[4026532611]
 3. 新 Cgroup 命名空间的 cgroup 视图
 
 ```bash
-$ cat /proc/self/cgroup 
+$ cat /proc/self/cgroup
 12:blkio:/
 11:cpu,cpuacct:/
 10:hugetlb:/
@@ -105,7 +105,7 @@ $ cat /proc/self/cgroup
 $ mkdir -p /sys/fs/cgroup/freezer/sub2
 
 # 创建一个进程
-$ sleep 10000 & 
+$ sleep 10000 &
 [1]20544
 
 # 将此进程放入该 cgroup

@@ -1,8 +1,26 @@
-# OverlayFS 简介
+---
+date: 2020-09-19 21:32:43  # 创建日期
+author: "Rustle Karl"  # 作者
+
+# 文章
+title: "Linux OverlayFS 简介"  # 文章标题
+url:  "posts/docker/abc/overlayfs"  # 设置网页永久链接
+tags: [ "docker" ]  # 标签
+series: [ "Docker 学习笔记"]  # 系列
+categories: [ "学习笔记"]  # 分类
+
+# 章节
+weight: 20 # 排序优先级
+chapter: false  # 设置为章节
+
+index: true  # 是否可以被索引
+toc: true  # 是否自动生成目录
+draft: false  # 草稿
+---
 
 > OverlayFS 会把一个“上层”的目录和“下层”的目录组合在一起：“上层”目录和“下层”目录或组合，或覆盖，或一块呈现。另外“下层”目录也可以是联合文件系统的挂载点。
 
-![OverlayFS](../../插图/overlay_constructs.jpg)
+![OverlayFS](https://i.loli.net/2021/04/07/vxbH9RNDuJIVCzi.jpg)
 
 ## Overlay vs Overlay2
 
@@ -32,11 +50,11 @@ nodev   overlay
 ## OverlayFS 挂载命令
 
 ```bash
-$ mount -t overlay overlay -olowerdir=lower,upperdir=upper,workdir=work merged
+mount -t overlay overlay -olowerdir=lower,upperdir=upper,workdir=work
 ```
 
 - `-o` 多个参数间不可以有任何空格。
-- `workdir` 必须是一个与 `upperdir` 相同文件系统的空文件夹。
+- `workdir` 必须是一个与 `upperdir` 相同文件系统的**空文件夹**。
 - `merged` 联合挂载点所在的目录。
 - `lowerdir` 可以指定多个文件夹，用 `:` 隔开，从从左往右级别依次降低。
 - `upperdir`、`workdir` 参数可以省略，表示只读。
@@ -81,7 +99,7 @@ $ tree
     └── work
 
 # 上层文件覆盖下层文件
-$ cat merged/layer 
+$ cat merged/layer
 upper
 ```
 
@@ -121,7 +139,14 @@ $ rm merged/upper
 ```
 
 - 删除 `lowerdir` 中的文件或目录时，会在 `upperdir` 建立一个同名的主次设备号都为 0 的字符设备，但并没有直接删掉文件。
+
 - 删除 `upperdir` 中的文件或目录时，那就是直接删掉文件。
+
+## 卸载
+
+```shell
+umount upper lower
+```
 
 ### 章节导航
 

@@ -17,6 +17,22 @@ index: true  # 文章是否可以被索引
 draft: false  # 草稿
 ---
 
+端口 10000-19999 都给 Docker 用
+
+## MongoDB
+
+
+
+## Gitea
+
+```shell
+docker run --restart=always -d --name gitea -p 10022:22 -p 13000:3000 -v /mnt/storage/service/gitea:/data -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro patrickthedev/gitea-rpi
+```
+
+```shell
+192.168.199.208:13000
+```
+
 ## Jaeger
 
 ```shell
@@ -30,7 +46,7 @@ docker pull swaggerapi/swagger-editor
 ```
 
 ```shell
-docker run --restart=always -d -p 8080:8080 swaggerapi/swagger-editor
+docker run --restart=always -d -p 18080:8080 swaggerapi/swagger-editor
 ```
 
 ```shell
@@ -77,7 +93,17 @@ docker pull nginx
 ### 文件镜像
 
 ```shell
-docker run --restart=always -d -p 54321:54321 --name nginx -v e:/Mirror:/usr/share/nginx/html -v D:/OneDrive/Repositories/notes/content/posts/nginx/configs/nginx-mirror.conf:/etc/nginx/nginx.conf -v D:/OneDrive/Repositories/notes/content/posts/nginx/logs/nginx-mirror:/var/log/nginx nginx-mirror
+docker run --restart=always -d -p 54321:54321 --name nginx-mirror -v e:/Mirror:/usr/share/nginx/html -v e:/OneDrive/Repositories/notes/content/posts/nginx/configs/nginx-mirror.conf:/etc/nginx/nginx.conf -v e:/OneDrive/Repositories/notes/content/posts/nginx/logs/nginx-mirror:/var/log/nginx nginx
+```
+
+```shell
+docker run --restart=always -d -p 54321:54321 --name nginx-mirror -v c:/Mirror:/usr/share/nginx/html -v e:/OneDrive/Repositories/notes/content/posts/nginx/configs/nginx-mirror.conf:/etc/nginx/nginx.conf -v e:/OneDrive/Repositories/notes/content/posts/nginx/logs/nginx-mirror:/var/log/nginx nginx
+```
+
+### 文件镜像
+
+```shell
+docker run --restart=always -d -p 12345:12345 --name nginx-mirror -v /mnt/storage/vsftp/Mirror:/usr/share/nginx/html -v /mnt/storage/service/nginx/nginx-mirror.conf:/etc/nginx/nginx.conf nginx
 ```
 
 {{<code language="conf" title="nginx.conf" id="1" expand="" collapse="" isCollapsed="true" >}}
@@ -97,7 +123,7 @@ http {
     server {
         listen       54321;
         server_name  localhost;
-        
+
         charset utf-8;
 
         location / {
@@ -118,13 +144,13 @@ http {
 相册在 D 盘
 
 ```shell
-docker run --restart=always -d -p 12346:12346 --name nginx -v D:/OneDrive/相册:/usr/share/nginx/html -v D:/OneDrive/Repositories/notes/content/posts/nginx/configs/nginx-photos.conf:/etc/nginx/nginx.conf -v D:/OneDrive/Repositories/notes/content/posts/nginx/logs/nginx-photos:/var/log/nginx nginx
+docker run --restart=always -d -p 12346:12346 --name nginx-photos -v D:/OneDrive/相册:/usr/share/nginx/html -v D:/OneDrive/Repositories/notes/content/posts/nginx/configs/nginx-photos.conf:/etc/nginx/nginx.conf -v D:/OneDrive/Repositories/notes/content/posts/nginx/logs/nginx-photos:/var/log/nginx nginx
 ```
 
 相册在 H 盘
 
 ```shell
-docker run --restart=always -d -p 12346:12346 --name nginx -v H:/OneDrive/相册:/usr/share/nginx/html -v H:/OneDrive/Repositories/notes/content/posts/nginx/configs/nginx-photos.conf:/etc/nginx/nginx.conf -v H:/OneDrive/Repositories/notes/content/posts/nginx/logs/nginx-photos:/var/log/nginx nginx
+docker run --restart=always -d -p 12346:12346 --name nginx-photos -v H:/OneDrive/相册:/usr/share/nginx/html -v H:/OneDrive/Repositories/notes/content/posts/nginx/configs/nginx-photos.conf:/etc/nginx/nginx.conf -v H:/OneDrive/Repositories/notes/content/posts/nginx/logs/nginx-photos:/var/log/nginx nginx
 ```
 
 访问
@@ -150,7 +176,7 @@ http {
     server {
         listen       12346;
         server_name  localhost;
-        
+
         charset utf-8;
 
         location / {
@@ -191,7 +217,7 @@ docker run --restart=always --name gitlab-redis -d sameersbn/redis
 ```
 
 ```shell
-docker network connect gitlab-net gitlab-redis 
+docker network connect gitlab-net gitlab-redis
 ```
 
 Step 3 - 启动 GitLab

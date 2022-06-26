@@ -31,7 +31,7 @@ apt-get update
 ```
 
 ```shell
-apt-get install \
+apt-get install -y \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -56,13 +56,34 @@ apt-get update
 ## 安装 Docker
 
 ```shell
-apt-get install docker-ce docker-ce-cli containerd.io
+apt-get install -y docker-ce docker-ce-cli containerd.io
 ```
 
 ## 进入 root 组
 
 ```shell
 sudo usermod -aG docker <user>
+```
+
+```shell
+sudo usermod -aG docker node1
+```
+
+```shell
+echo '
+{
+  "registry-mirrors": [
+    "http://ovfftd6p.mirror.aliyuncs.com",
+    "http://registry.docker-cn.com",
+    "http://docker.mirrors.ustc.edu.cn",
+    "http://hub-mirror.c.163.com"
+  ],
+  "insecure-registries": [
+    "registry.docker-cn.com",
+    "docker.mirrors.ustc.edu.cn"
+  ]
+}
+' > /etc/docker/daemon.json
 ```
 
 ## 开机启动
@@ -75,34 +96,10 @@ systemctl enable docker.service
 systemctl restart docker.service
 ```
 
-```shell
-
-```
+### 测试
 
 ```shell
-
-```
-
-```shell
-
-```
-
-```shell
-
-```
-
-```shell
-
-```
-
-```shell
-
-```
-
-
-
-```shell
-
+docker run --rm hello-world
 ```
 
 ```shell
@@ -131,3 +128,30 @@ systemctl restart docker.service
 
 
 
+```shell
+
+```
+
+```shell
+
+```
+
+```shell
+
+```
+
+```shell
+
+```
+
+```shell
+
+```
+
+```shell
+
+```
+
+```shell
+
+```

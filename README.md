@@ -1,4 +1,21 @@
-# Docker 学习笔记
+---
+date: 2019-12-15T22:20:49+08:00  # 创建日期
+author: "Rustle Karl"  # 作者
+
+# 文章
+title: "Docker 学习笔记"  # 文章标题
+url:  "posts/docker/readme"  # 设置网页链接，默认使用文件名
+tags: [ "docker", "readme"]  # 自定义标签
+series: [ "Docker 从入门到放弃"]  # 文章主题/文章系列
+categories: [ "学习笔记"]  # 文章分类
+
+# 章节
+weight: 20 # 文章在章节中的排序优先级，正序排序
+chapter: false  # 将页面设置为章节
+
+index: true  # 文章是否可以被索引
+draft: false  # 草稿
+---
 
 > 参考了 Docker 官方最新英文文档（v19.03）以及多本从入门到“放弃”的 Docker 教程书
 
@@ -64,6 +81,8 @@ Server: Docker Engine - Community
 * 引言
     * [开始前预准备](#开始前预准备)
     * [目录章节](#目录章节)
+* 教程
+  * [基本流程]
 * 原理
     * [命名空间](原理/命名空间/命名空间概述.md)
         * [UTS 命名空间](原理/命名空间/UTS%20命名空间.md)

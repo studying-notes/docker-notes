@@ -1,3 +1,23 @@
+---
+date: 2020-12-29T13:51:09+08:00  # 创建日期
+author: "Rustle Karl"  # 作者
+
+# 文章
+title: "浅析 CREATE 执行过程"  # 文章标题
+url:  "posts/docker/abc/create"  # 设置网页链接，默认使用文件名
+tags: [ "docker", "turtial"]  # 自定义标签
+series: [ "Docker 从入门到放弃"]  # 文章主题/文章系列
+categories: [ "学习笔记"]  # 文章分类
+
+# 章节
+weight: 20 # 排序优先级
+chapter: false  # 设置为章节
+
+index: true  # 是否可以被索引
+toc: true  # 是否自动生成目录
+draft: false  # 草稿
+---
+
 # 浅析 CREATE 执行过程
 
 > `docker run` 命令直接创建并运行了一个容器，它的背后其实包含独立的两步，一步是 `docker create` 创建容器，另一步是 `docker start` 启动容器。

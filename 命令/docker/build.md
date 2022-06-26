@@ -1,6 +1,49 @@
-# `docker build` 命令详解
+---
+date: 2020-09-19 21:32:37  # 创建日期
+author: "Rustle Karl"  # 作者
+
+# 文章
+title: "构建 image / docker build 命令详解"  # 文章标题
+# description: "文章描述"
+url:  "posts/docker/cmd/docker/run"  # 设置网页永久链接
+tags: [ "docker", "docker-cli"]  # 自定义标签
+series: [ "Docker 从入门到放弃"]  # 文章主题/文章系列
+categories: [ "学习笔记"]  # 文章分类
+
+# 章节
+weight: 20 # 排序优先级
+chapter: false  # 设置为章节
+
+index: true  # 是否可以被索引
+toc: true  # 是否自动生成目录
+draft: false  # 草稿
+---
 
 > 从 Dockerfile 构建镜像
+
+- [基本信息](#基本信息)
+  - [用法](#用法)
+  - [选项](#选项)
+- [扩展信息](#扩展信息)
+  - [Git 仓库](#git-仓库)
+  - [tarball 上下文](#tarball-上下文)
+  - [纯文本文件](#纯文本文件)
+- [示例](#示例)
+  - [将路径作为构建上下文](#将路径作为构建上下文)
+  - [将 URL 作为构建上下文](#将-url-作为构建上下文)
+  - [通过 `-` 构建](#通过---构建)
+  - [.dockerignore 文件](#dockerignore-文件)
+  - [给镜像打标签](#给镜像打标签)
+  - [指定 Dockerfile 文件](#指定-dockerfile-文件)
+  - [设置构建时临时变量](#设置构建时临时变量)
+  - [指定容器的隔离技术](#指定容器的隔离技术)
+  - [添加新条目到容器的 `/etc/hosts`](#添加新条目到容器的-etchosts)
+  - [指定目标构建阶段](#指定目标构建阶段)
+  - [压缩镜像层（layers）](#压缩镜像层layers)
+    - [概述](#概述)
+    - [已知限制](#已知限制)
+    - [前提条件](#前提条件)
+    - [构建一个压缩镜像](#构建一个压缩镜像)
 
 ## 基本信息
 
@@ -63,7 +106,7 @@ URL 参数可以是三种情况：Git 仓库、预打包 tarball 上下文和纯
 Git URLs 允许将其部分片段作为构建上下文，以 `:` 分割表示。比如：
 
 ```bash
-$ docker build https://github.com/docker/rootfs.git#container:docker
+docker build https://github.com/docker/rootfs.git#container:docker
 ```
 
 `https://github.com/docker/rootfs.git#container` 部分表示 Git 将 `check out` 的引用链接，可以是分支、标签或远程引用链接，`docker` 部分表示仓库中的子目录，该子目录将用作构建上下文。
@@ -86,7 +129,7 @@ $ docker build https://github.com/docker/rootfs.git#container:docker
 当 URL 参数指向远程 tarball 文件时，这个 URL 会被发送给守护进程。
 
 ```bash
-$ docker build http://server/context.tar.gz
+docker build http://server/context.tar.gz
 ```
 
 下载操作将在运行 Docker 守护进程的主机上执行，该主机不一定与发出 `build` 命令的主机相同。Docker 守护进程将获取 `context.tar.gz` 文件，解压然后将其用作构建上下文。Tarball 上下文必须是符合标准 `tar` UNIX 格式的 `tar` 存档文件，可以是 `xz`、` bzip2`、` gzip` 或 ` identity`（无压缩）格式。
@@ -96,7 +139,7 @@ $ docker build http://server/context.tar.gz
 不指定上下文，在 URL 中传入一个 Dockerfile 文件流，即该 URL 指向 Dockerfile 格式的纯文本文件，又或者通过管道从 STDIN 传入。比如：
 
 ```bash
-$ docker build - < Dockerfile
+docker build - < Dockerfile
 ```
 
 在 Windows 下：
@@ -116,7 +159,7 @@ Get-Content Dockerfile | docker build -
 ### 将路径作为构建上下文
 
 ```bash
-$ docker build .
+docker build .
 ```
 
 示例中将当前工作目录 `.` 作为参数，前提是当前目录中存在 `Dockerfile` 文件。执行过程中，由于客户端不会对 `Dockerfile` 进行解析，当前目录中的所有文件都将被 `tar` 打包，然后发送到 Docker 守护进程，而守护进程可能在远程计算机上运行。在发送过程中，客户端会显示 `Sending build context` 信息。
@@ -128,13 +171,13 @@ $ docker build .
 从 Git 仓库：
 
 ```bash
-$ docker build github.com/creack/docker-firefox
+docker build github.com/creack/docker-firefox
 ```
 
 从远程 Tarball 文件：
 
 ```bash
-$ docker build -f ctx/Dockerfile http://server/ctx.tar.gz
+docker build -f ctx/Dockerfile http://server/ctx.tar.gz
 ```
 
 `-f ctx/Dockerfile` 参数指定了 `ctx.tar.gz` 内部 `Dockerfile` 文件的路径，其中 `ADD` 本地文件的命令也同样必须是相对于 `ctx.tar.gz` 内部的根目录。
@@ -142,13 +185,13 @@ $ docker build -f ctx/Dockerfile http://server/ctx.tar.gz
 ### 通过 `-` 构建
 
 ```bash
-$ docker build - < Dockerfile
+docker build - < Dockerfile
 ```
 
 上面这种情况是没有上下文的，其中的 `ADD` 命令只能添加远程 URL 文件。
 
 ```bash
-$ docker build - < context.tar.gz
+docker build - < context.tar.gz
 ```
 
 这将从该压缩的上下文中构建镜像，格式可以是：`bzip2`、`gzip` 和 `xz`。
@@ -156,19 +199,19 @@ $ docker build - < context.tar.gz
 ### .dockerignore 文件
 
 ```bash
-$ echo ".git" > .dockerignore
+echo ".git" > .dockerignore
 ```
 
 ### 给镜像打标签
 
 ```bash
-$ docker build -t vieux/apache:2.0 .
+docker build -t vieux/apache:2.0 .
 ```
 
 构建镜像的同时打上标签。
 
 ```bash
-$ docker build -t whenry/fedora-jboss:latest -t whenry/fedora-jboss:v2.1 .
+docker build -t whenry/fedora-jboss:latest -t whenry/fedora-jboss:v2.1 .
 ```
 
 也可以对同一个镜像打上多个标签。
@@ -176,20 +219,20 @@ $ docker build -t whenry/fedora-jboss:latest -t whenry/fedora-jboss:v2.1 .
 ### 指定 Dockerfile 文件
 
 ```bash
-$ docker build -f Dockerfile.debug .
+docker build -f Dockerfile.debug .
 ```
 
 只需符合 `Dockerfile` 格式的文件即可。比如从 STDIN 读入也可以：
 
 ```bash
-$ curl example.com/remote/Dockerfile | docker build -f - .
+curl example.com/remote/Dockerfile | docker build -f - .
 ```
 
 又或者同一个目录用不同配置的 Dockerfile 文件：
 
 ```bash
-$ docker build -f dockerfiles/Dockerfile.debug -t myapp_debug .
-$ docker build -f dockerfiles/Dockerfile.prod -t myapp_prod .
+docker build -f dockerfiles/Dockerfile.debug -t myapp_debug .
+docker build -f dockerfiles/Dockerfile.prod -t myapp_prod .
 ```
 
 出于安全考虑，上下文仅限于当前目录及其子目录，`ADD ../file` 无法正确工作。
@@ -199,14 +242,14 @@ $ docker build -f dockerfiles/Dockerfile.prod -t myapp_prod .
 `ENV` 可以定义永久变量，`--build-arg` 可以设置构建时的临时变量。
 
 ```bash
-$ docker build --build-arg HTTP_PROXY=http://10.20.30.2:1234 --build-arg FTP_PROXY=http://40.50.60.5:4567 .
+docker build --build-arg HTTP_PROXY=http://10.20.30.2:1234 --build-arg FTP_PROXY=http://40.50.60.5:4567 .
 ```
 
 这个参数在执行 `Dockerfile` 文件中的 `RUN` 命令时，可以像 `ENV` 一样访问变量，但是最终不会保留在镜像中。
 
 ```bash
-$ export HTTP_PROXY=http://10.20.30.2:1234
-$ docker build --build-arg HTTP_PROXY .
+export HTTP_PROXY=http://10.20.30.2:1234
+docker build --build-arg HTTP_PROXY .
 ```
 
 这和 `docker run -e` 工作过程相似。
@@ -216,8 +259,8 @@ $ docker build --build-arg HTTP_PROXY .
 `--isolation=<value>` 参数可以指定容器的隔离技术。在 Linux 上，唯一支持 Linux 命名空间的默认选项。因此以下两个命令是等价的。
 
 ```bash
-$ docker run -d busybox top
-$ docker run -d --isolation default busybox top
+docker run -d busybox top
+docker run -d --isolation default busybox top
 ```
 
 在 Windows 上，可以指定以下值:
@@ -245,7 +288,7 @@ PS C:\> docker run -d --isolation hyperv microsoft/nanoserver powershell echo hy
 ### 添加新条目到容器的 `/etc/hosts`
 
 ```bash
-$ docker build --add-host=docker:10.180.0.1 .
+docker build --add-host=docker:10.180.0.1 .
 ```
 
 ### 指定目标构建阶段
@@ -261,7 +304,7 @@ FROM alpine AS production-env
 ```
 
 ```bash
-$ docker build -t mybuildimage --target build-env .
+docker build -t mybuildimage --target build-env .
 ```
 
 ### 压缩镜像层（layers）
@@ -299,7 +342,7 @@ $ docker build -t mybuildimage --target build-env .
 查询是否已开启实验性功能：
 
 ```bash
-$ docker version -f '{{.Server.Experimental}}'
+docker version -f '{{.Server.Experimental}}'
 true
 ```
 
@@ -317,9 +360,9 @@ RUN rm /remove_me
 ```
 
 ```bash
-$ docker build --squash -t busybox:squash .
+docker build --squash -t busybox:squash .
 
-$ docker history busybox:squash
+docker history busybox:squash
 
 IMAGE CREATED CREATED BY SIZE COMMENT
 4e10cb5b4cac 3 seconds ago 12 B merge sha256:88a7b0112a41826885df0e7072698006ee8f621c6ab99fca7fe9151d7b599702 to sha256:47bcc53f74dc94b1920f0b34f6036096526296767650f223433fe65c35f149eb

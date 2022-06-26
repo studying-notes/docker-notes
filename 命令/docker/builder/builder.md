@@ -20,4 +20,3 @@ docker builder COMMAND
 | ------------------------------------------------------------ | -------------------------------- |
 | [docker builder build](https://docs.docker.com/engine/reference/commandline/builder_build/) | Build an image from a Dockerfile |
 | [docker builder prune](https://docs.docker.com/engine/reference/commandline/builder_prune/) | Remove build cache |
-

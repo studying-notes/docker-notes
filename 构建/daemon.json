@@ -1,0 +1,17 @@
+{
+    "exec-opts": [
+        "native.cgroupdriver=systemd"
+    ],
+    "registry-mirrors": [
+        "http://node1:5000",
+        "http://ovfftd6p.mirror.aliyuncs.com",
+        "http://registry.docker-cn.com",
+        "http://docker.mirrors.ustc.edu.cn",
+        "http://hub-mirror.c.163.com"
+    ],
+    "insecure-registries": [
+        "registry.docker-cn.com",
+        "node1:5000",
+        "docker.mirrors.ustc.edu.cn"
+    ]
+}

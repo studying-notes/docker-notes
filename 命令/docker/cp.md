@@ -25,7 +25,7 @@ docker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH
 - `cp` 命令的行为类似 Unix 的 `cp -a` 命令，递归地复制文件夹、尽可能保留文件权限属性。所有权设置为目的地的用户和用户组。例如，复制一个由 root 用户创建的文件到容器，复制一个由执行 `docker cp` 命令的用户创建的文件到本地主机。但是，当指定了 `-a`，`docker cp` 将所有权设置为源的用户和用户组。
 - 指定 `-L` 时，`docker cp` 会复制符号链接指向的内容，而不是复制符号链接，当内容不存在时，不会复制。默认情况下将复制符号链接而不是目标链接。
 
-### `SRC_PATH` 和 `DEST_PATH` 
+### `SRC_PATH` 和 `DEST_PATH`
 
 假定路径分隔符是 `/`，参数 `SRC_PATH` 在前，`DEST_PATH` 在后，那么存在的情况如下：
 
