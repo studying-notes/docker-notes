@@ -37,4 +37,6 @@ draft: false  # 草稿
 
 ## 第三方工具
 
--[Harbor 搭建企业级 Docker Registry 服务](tools/harbor.md)
+- [Harbor 搭建企业级 Docker Registry 服务](tools/harbor.md)
+- [Rancher 容器管理平台](tools/rancher.md)
+- [Seaweedfs 分布式文件系统](tools/seaweedfs.md)
