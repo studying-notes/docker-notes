@@ -1,0 +1,5 @@
+---
+roles:
+  - name: geerlingguy.firewall
+  - name: geerlingguy.docker
+  - name: geerlingguy.pip

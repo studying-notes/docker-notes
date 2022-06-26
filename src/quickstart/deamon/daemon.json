@@ -1,0 +1,9 @@
+{
+    "insecure-registries": [
+        "192.168.0.18:5000"
+    ],
+    "registry-mirrors": [
+        "http://192.168.0.18:5000",
+        "https://ba0d43c4ea0f4de5a5528e288a251804.mirror.swr.myhuaweicloud.com"
+    ]
+}

@@ -1,0 +1,9 @@
+---
+- name: Install Docker Python library.
+  pip: name=docker state=present
+
+- name: Run the hello-world container.
+  docker_container:
+    image: hello-world:latest
+    name: hello-world
+    state: started
