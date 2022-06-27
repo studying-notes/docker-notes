@@ -132,3 +132,5 @@ docker pull <harbor_server_name>/<proxy_project_name>/goharbor/harbor-core:dev
 ```
 
 无法透明代理，必须加上前缀，还是不太方便。
+
+不过搭配 K3s 的重写，可以实现透明代理。
