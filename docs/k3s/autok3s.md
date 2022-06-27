@@ -54,6 +54,10 @@ curl -sS https://rancher-mirror.rancher.cn/autok3s/install.sh  | INSTALL_AUTOK3S
 autok3s serve
 ```
 
+```shell
+autok3s serve --bind-address 0.0.0.0 --bind-port 18480
+```
+
 您也可以通过以下 CLI 在 AWS EC2 快速创建一个 1 master, 1 worker 节点的 K3s 集群。
 
 ```shell
@@ -94,8 +98,10 @@ docker run -itd --restart=unless-stopped -p 8080:8080 --volumes-from <old-contai
 master node internal ip address can not be empty
 ```
 
-```shell
+## 查询节点
 
+```shell
+autok3s kubectl get nodes
 ```
 
 ```shell
