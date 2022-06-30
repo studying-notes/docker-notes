@@ -66,7 +66,7 @@ vim harbor.yml
 ```
 
 ```bash
-prepare
+./prepare
 ```
 
 ```bash
