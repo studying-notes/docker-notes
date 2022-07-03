@@ -111,6 +111,10 @@ tail -f /var/log/drone-runner-exec/runner.log
 
 https://zhuanlan.zhihu.com/p/467226649
 
+## 非管理员的问题
+
+除非首次，否则直接修改数据库，不然不生效。
+
 ```shell
 
 ```
