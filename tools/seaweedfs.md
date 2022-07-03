@@ -17,6 +17,16 @@ draft: true  # 草稿
 
 SeaweedFS 实现了一个带有 O(1) 磁盘搜索的对象存储，以及一个带有 POSIX 接口的可选 Filer。
 
+## 安装
+
+```shell
+git clone https://github.com/chrislusf/seaweedfs.git
+```
+
+```shell
+cd seaweedfs/weed && make install
+```
+
 ## 名词
 
 - `master`: 主节点，即集群管理，同时存储文件和 fid 映射关系
@@ -42,6 +52,23 @@ SeaweedFS 实现了一个带有 O(1) 磁盘搜索的对象存储，以及一个�
                         └┈┈┈›▷▶ volume ┆  ┆ volume ┆  ┆ volume ┆
                               ┆        ┆  ┆        ┆  ┆        ┆
                               └┈┈┈┈┈┈┈┈┘  └┈┈┈┈┈┈┈┈┘  └┈┈┈┈┈┈┈┈┘
+```
+
+
+## 增加储存节点
+
+```shell
+mkdir -p /mnt/ssd/seaweedfs/volume01
+```
+
+```shell
+weed volume -dir="/mnt/ssd/seaweedfs/volume01" -max=256 -mserver="192.168.0.16:9333" -port=8081 &
+weed volume -dir="/mnt/ssd/seaweedfs/volume02" -max=256 -mserver="192.168.0.16:9333" -port=8082 &
+weed volume -dir="/mnt/ssd/seaweedfs/volume03" -max=256 -mserver="192.168.0.16:9333" -port=8083 &
+```
+
+```shell
+
 ```
 
 ## 写文件
