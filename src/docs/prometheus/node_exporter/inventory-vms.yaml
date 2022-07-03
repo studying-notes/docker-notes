@@ -1,0 +1,24 @@
+# ansible all -m ping -i inventory-vms.yaml
+
+fedora_amd64_vms:
+  hosts:
+    fedora_amd64_vm01:
+      ansible_host: 192.168.75.131
+    fedora_amd64_vm02:
+      ansible_host: 192.168.75.132
+    fedora_amd64_vm03:
+      ansible_host: 192.168.75.133
+
+ubuntu_amd64_vms:
+  hosts:
+    ubuntu_amd64_vm01:
+      ansible_host: 192.168.75.134
+    ubuntu_amd64_vm02:
+      ansible_host: 192.168.75.136
+    ubuntu_amd64_vm03:
+      ansible_host: 192.168.75.137
+
+virtualmachines_amd64:
+  children:
+    fedora_amd64_vms:
+    ubuntu_amd64_vms:

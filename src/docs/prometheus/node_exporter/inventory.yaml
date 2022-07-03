@@ -1,0 +1,10 @@
+# ansible all -m ping -i inventory.yaml
+
+linux:
+  hosts:
+    openwrt_arm64:
+      ansible_host: 192.168.0.16
+    ubuntu_amd64:
+      ansible_host: 192.168.0.18
+    ubuntu_arm64:
+      ansible_host: 192.168.0.218

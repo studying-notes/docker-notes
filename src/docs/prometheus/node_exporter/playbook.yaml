@@ -1,0 +1,6 @@
+- hosts: all
+  roles:
+    - cloudalchemy.node_exporter
+  vars:
+    node_exporter_web_listen_address: "0.0.0.0:19100"
+    node_exporter_web_telemetry_path: "/metrics"

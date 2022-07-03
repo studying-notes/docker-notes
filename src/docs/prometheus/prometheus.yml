@@ -1,0 +1,20 @@
+global:
+  scrape_interval: 30s
+  scrape_timeout: 10s
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["192.168.0.212:9090"]
+
+  - job_name: "node"
+    static_configs:
+      - targets:
+          [
+            "192.168.75.131:19100",
+            "192.168.75.132:19100",
+            "192.168.75.133:19100",
+            "192.168.75.134:19100",
+            "192.168.75.136:19100",
+            "192.168.75.137:19100",
+          ]
