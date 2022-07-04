@@ -27,6 +27,10 @@ git clone https://github.com/chrislusf/seaweedfs.git
 cd seaweedfs/weed && make install
 ```
 
+```shell
+cp /root/go/bin/weed /usr/bin/
+```
+
 ## 名词
 
 - `master`: 主节点，即集群管理，同时存储文件和 fid 映射关系
@@ -37,24 +41,6 @@ cd seaweedfs/weed && make install
 
 ⚠️： `volume` 节点不可以被负载均衡，不然会出现上传错误。
 
-```bash
-                                    ┌┈┈┈┈┈┈┈┈┐  ┌┈┈┈┈┈┈┈┈┐
-                                    ┆        ┆  ┆        ┆
-┌┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┐              ┆M-master├┈┈┤S-master┆
-┆                    ├┈┈┈┈┈┈┈┈┈┈┈┈›▷▶        ┆  ┆        ┆
-┆ client/web browser ┆              └┈┈┈┬┈┈┈┈┘  └┈┈┈┬┈┈┈┈┘
-┆                    ├┈┈┐               ┆           ┆
-└┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┘  ┆         ┌┈┈┈┈┈┴┈┈┈┈┈┬┈┈┈┈┈┴┈┈┈┈┈┐
-                        ┆         ┆           ┆           ┆
-                        ┆         ┆           ┆           ┆
-                        ┆     ┌┈┈┈┴┈┈┈┈┐  ┌┈┈┈┴┈┈┈┈┐  ┌┈┈┈┴┈┈┈┈┐
-                        ┆     ┆        ┆  ┆        ┆  ┆        ┆
-                        └┈┈┈›▷▶ volume ┆  ┆ volume ┆  ┆ volume ┆
-                              ┆        ┆  ┆        ┆  ┆        ┆
-                              └┈┈┈┈┈┈┈┈┘  └┈┈┈┈┈┈┈┈┘  └┈┈┈┈┈┈┈┈┘
-```
-
-
 ## 增加储存节点
 
 ```shell
@@ -62,13 +48,11 @@ mkdir -p /mnt/ssd/seaweedfs/volume01
 ```
 
 ```shell
-weed volume -dir="/mnt/ssd/seaweedfs/volume01" -max=256 -mserver="192.168.0.16:9333" -port=8081 &
-weed volume -dir="/mnt/ssd/seaweedfs/volume02" -max=256 -mserver="192.168.0.16:9333" -port=8082 &
-weed volume -dir="/mnt/ssd/seaweedfs/volume03" -max=256 -mserver="192.168.0.16:9333" -port=8083 &
+screen -S seaweedfs
 ```
 
 ```shell
-
+weed volume -dir="/mnt/ssd/seaweedfs/volume01" -max=1024 -mserver="192.168.0.16:9333" -port=8081
 ```
 
 ## 写文件
@@ -76,15 +60,34 @@ weed volume -dir="/mnt/ssd/seaweedfs/volume03" -max=256 -mserver="192.168.0.16:9
 **上传文件**：首先，将HTTP `POST`，`PUT`或`GET`请求发送到 `/dir/assign`以获取fid和卷服务器URL：
 
 ```bash
-curl http://localhost:9333/dir/assign
-# {"count":1,"fid":"3,01637037d6","url":"127.0.0.1:8080","publicUrl":"localhost:8080"}
+curl http://192.168.0.16:9333/dir/assign
+```
+
+```bash
+http http://192.168.0.16:9333/dir/assign
+```
+
+```json
+{
+    "count": 1,
+    "fid": "7,078309bd40ff",
+    "publicUrl": "192.168.0.16:14080",
+    "url": "192.168.0.16:14080"
+}
 ```
 
 其次，要存储文件内容，请从响应中向 `URL +'/'+ fid` 发送`HTTP` `POST`请求：
 
 ```bash
-curl -F file=@/home/chris/myphoto.jpg http://127.0.0.1:8080/3,01637037d6
-# {"size": 43234}
+curl -F file=@/root/get-docker.sh http://192.168.0.16:14080/7,078309bd40ff
+```
+
+```json
+{"name":"get-docker.sh","size":20009,"eTag":"8ae50fc5"}
+```
+
+```bash
+curl -F file=@/root/camera.jpg http://192.168.0.16:14080/7,078309bd40ff
 ```
 
 ⚠️：要更新，请发送包含更新文件内容的其他POST请求。
@@ -94,7 +97,7 @@ curl -F file=@/home/chris/myphoto.jpg http://127.0.0.1:8080/3,01637037d6
 将HTTP DELETE请求发送到相同的`URL +'/'+ fid` URL：
 
 ```bash
-curl -X DELETE http://127.0.0.1:8083/3,01637037d6
+curl -X DELETE 192.168.0.16:14080/7,078309bd40ff
 ```
 
 ## 保存文件ID
@@ -105,47 +108,32 @@ curl -X DELETE http://127.0.0.1:8083/3,01637037d6
 
 卷`id`是无符号的32位整数。 文件密钥是无符号的64位整数。 文件cookie是无符号的32位整数，用于防止URL猜测。
 
-文件密钥和文件cookie都以十六进制编码。 您可以以自己的格式存储`<volume id，file key，file cookie>`元组，或者只是将fid存储为字符串。
+文件密钥和文件 cookie 都以十六进制编码。 您可以以自己的格式存储`<volume id，file key，file cookie>`元组，或者只是将fid存储为字符串。
 
 如果存储为字符串，理论上，您需要`8+1+16+8=33`字节。 如果不是绰绰有余，char(33) 就足够了，因为大多数用法不需要 `2^32`卷。
 
-如果空间确实存在问题，您可以使用自己的格式存储文件ID。 对于卷id，您需要一个4字节整数，对于文件密钥，需要8字节长整数，对于文件cookie，需要4字节整数。 所以16个字节绰绰有余。
+如果空间确实存在问题，您可以使用自己的格式存储文件 ID。对于卷 id，您需要一个 4 字节整数，对于文件密钥，需要 8 字节长整数，对于文件 cookie，需要 4 字节整数。所以 16 个字节绰绰有余。
 
 ## 读取文件
 
-以下是如何呈现URL的示例。
+以下是如何呈现 URL 的示例。
 
-首先按文件的 `volumeId` 查找卷服务器的URL：
+首先按文件的 `volumeId` 查找卷服务器的 URL：
 
 ```bash
-curl http://localhost:9333/dir/lookup?volumeId=3
-# {"locations":[{"publicUrl":"localhost:8080","url":"localhost:8080"}]}
+curl "http://192.168.0.16:9333/dir/lookup?volumeId=7"
+```
+
+```json
+{"volumeOrFileId":"7","locations":[{"url":"192.168.0.16:14080","publicUrl":"192.168.0.16:14080"}]}
 ```
 
 由于（通常）卷服务器不是太多，并且卷不经常移动，因此您可以在大多数时间缓存结果。 根据复制类型，一个卷可以具有多个副本位置。 只需随机选择一个位置即可阅读。
 
-现在您可以通过url获取公共URL，呈现URL或直接从卷服务器读取：
+现在您可以通过 url 获取公共 URL，呈现 URL 或直接从卷服务器读取：
 
 ```bash
-http://localhost:8083/3,01637037d6.jpg
+http://192.168.0.16:14080/7,078309bd40ff.jpg
 ```
 
 ⚠️：请注意，我们在这里添加文件扩展名 `.jpg`。 它是可选的，只是客户端指定文件内容类型的一种方式。
-
-如果您想要更好的URL，可以使用以下其中一种替代URL格式：
-
-```bash
-http://localhost:8083/3/01637037d6/my_preferred_name.jpg
-http://localhost:8083/3/01637037d6.jpg
-http://localhost:8083/3,01637037d6.jpg
-http://localhost:8083/3/01637037d6
-http://localhost:8083/3,01637037d6
-```
-
-如果您想获得图像的缩放版本，可以添加一些参数：
-
-```bash
-http://localhost:8083/3/01637037d6.jpg?height=200&width=200
-http://localhost:8083/3/01637037d6.jpg?height=200&width=200&mode=fit
-http://localhost:8083/3/01637037d6.jpg?height=200&width=200&mode=fill
-```
