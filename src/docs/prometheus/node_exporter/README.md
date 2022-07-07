@@ -33,5 +33,4 @@ ansible-playbook -i inventory.yaml playbook.yaml
 ```shell
 curl 192.168.0.16:19100/metrics
 curl 192.168.0.18:19100/metrics
-curl 192.168.0.218:19100/metrics
 ```

@@ -47,12 +47,26 @@ cp /root/go/bin/weed /usr/bin/
 mkdir -p /mnt/ssd/seaweedfs/volume01
 ```
 
+chmod -R o+w /mnt/ssd/seaweedfs/volume01
+
 ```shell
 screen -S seaweedfs
 ```
 
 ```shell
 weed volume -dir="/mnt/ssd/seaweedfs/volume01" -max=1024 -mserver="192.168.0.16:9333" -port=8081
+```
+
+```shell
+weed volume -dir="/mnt/hhd/seaweedfs/volume02" -max=1024 -mserver="192.168.0.16:9333" -port=8082
+```
+
+```shell
+weed volume -dir="/mnt/hhd/seaweedfs/volume03" -max=1024 -mserver="192.168.0.16:9333" -port=8083
+```
+
+```shell
+screen -r seaweedfs
 ```
 
 ## 写文件
@@ -137,3 +151,112 @@ http://192.168.0.16:14080/7,078309bd40ff.jpg
 ```
 
 ⚠️：请注意，我们在这里添加文件扩展名 `.jpg`。 它是可选的，只是客户端指定文件内容类型的一种方式。
+
+## 挂载为文件系统
+
+https://github.com/chrislusf/seaweedfs/wiki/FUSE-Mount
+
+这个命令是前台命令：
+
+```bash
+# assuming you already started weed master, weed volume and filer
+weed mount -filer=192.168.0.16:8888 -dir=/mnt/seaweedfs -filer.path=/
+```
+
+```bash
+screen -S fuse
+```
+
+```bash
+screen -r fuse
+```
+
+读写权限搞不懂。。
+
+## 随机生成文件测试
+
+```bash
+seq 100 | xargs -i dd if=/dev/zero of={}.dat bs=10M count=1
+```
+
+S3 是压缩储存的，上面的命令储存后比较小。
+
+用随机数据源：
+
+```bash
+seq 100 | xargs -i dd if=/dev/urandom of={}.dat bs=10M count=1
+```
+
+大了很多。
+
+### 测试
+
+apt install sysbench -y
+
+```bash
+sysbench --test=fileio --file-total-size=1G prepare
+
+sysbench --test=fileio --file-total-size=1G --file-test-mode=rndrw --max-time=60 --max-requests=0 --num-threads=1 --file-block-size=1m run
+```
+
+## S3 CLI
+
+https://github.com/chrislusf/seaweedfs/wiki/AWS-CLI-with-SeaweedFS
+
+```bash
+apt install -y awscli
+```
+
+```bash
+aws configure
+```
+
+```bash
+aws configure set default.s3.signature_version s3v4
+```
+
+### list buckets
+
+```bash
+aws --endpoint-url http://192.168.0.16:8333 s3 ls
+```
+
+### make a bucket
+
+```bash
+aws --endpoint-url http://192.168.0.16:8333 s3 mb s3://main
+```
+
+### list files inside the bucket
+
+```bash
+aws --endpoint-url http://192.168.0.16:8333 s3 ls s3://main
+```
+
+### add an object
+
+```bash
+aws --endpoint-url http://192.168.0.16:8333 s3 cp /etc/passwd s3://main
+```
+
+### copy an object
+
+```bash
+aws --endpoint-url http://192.168.0.16:8333 s3 cp s3://main/passwd s3://main/passwd.txt
+```
+
+### remove an object
+
+```bash
+aws --endpoint-url http://192.168.0.16:8333 s3 rm s3://main/passwd
+```
+
+# remove a bucket
+
+```bash
+aws --endpoint-url http://192.168.0.16:8333 s3 rb s3://main
+```
+
+```bash
+
+```

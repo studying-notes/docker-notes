@@ -29,7 +29,7 @@ Github: [goharbor/harbor](https://github.com/goharbor/harbor)，官方[预览示
 
 ```bash
 # 下载离线安装包
-wget https://github.com/goharbor/harbor/releases/download/v2.5.1/harbor-offline-installer-v2.5.1.tgz -O harbor.tgz
+wget https://github.com/goharbor/harbor/releases/download/v2.5.2/harbor-offline-installer-v2.5.2.tgz -O harbor.tgz
 ```
 
 ```bash
