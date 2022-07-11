@@ -103,21 +103,46 @@ update       检查软件更新
 mc alias set minio http://192.168.0.18:9000 admin password
 ```
 
-## Python
+## AWS CLI
 
-自带 Python 开发包。
+https://docs.min.io/docs/aws-cli-with-minio.html
 
 ```bash
-
+aws configure
 ```
 
 ```bash
-
+aws configure set default.s3.signature_version s3v4
 ```
 
 ```bash
-
+aws --endpoint-url http://192.168.0.18:9000 s3 mb s3://main
 ```
+
+```bash
+aws --endpoint-url http://192.168.0.18:9000 s3 ls
+```
+
+## 挂载文件系统
+
+### 配置
+
+```bash
+echo admin:password > .passwd-s3fs
+chmod 600 .passwd-s3fs
+```
+
+### 挂载
+
+```bash
+mkdir /root/projects
+```
+
+```bash
+s3fs projects /root/projects -o passwd_file=/root/.passwd-s3fs -o url=http://192.168.0.18:9000 -o use_path_request_style
+```
+
+没有出现读写权限问题，相比 seaweedfs 只能写入无法读取好多了。
 
 ```bash
 
